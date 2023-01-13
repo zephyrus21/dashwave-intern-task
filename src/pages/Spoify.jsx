@@ -1,30 +1,32 @@
 import React, { useEffect } from "react";
-import { selectToken } from "../features/songs/songsSlice";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import {
+  fetchTracks,
+  getTracksStatus,
+  selectTracks,
+} from "../features/songs/songsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Spoify = () => {
-  const token = useSelector(selectToken);
+  const dispatch = useDispatch();
+
+  const tracks = useSelector(selectTracks);
+  const status = useSelector(getTracksStatus);
 
   useEffect(() => {
-    const getTracks = async () => {
-      const response = await axios.get("https://api.spotify.com/v1/search", {
-        params: {
-          q: "rock",
-          type: "track",
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.data);
-    };
+    if (status === "idle") {
+      dispatch(fetchTracks());
+    }
+  }, [dispatch, status]);
 
-    getTracks();
-  }, []);
-
-  return <div>Spoify</div>;
+  let content;
+  if (status === "loading") {
+    content = <p>Loading...</p>;
+  } else if (status === "succeeded") {
+    console.log("tracks", tracks);
+    content = tracks.map((track) => <div>{track.name}</div>);
+  } else if (status === "failed") {
+  }
+  return <div>{content}</div>;
 };
 
 export default Spoify;
