@@ -5,7 +5,24 @@ const Login = () => {
     const clientId = "0e474b74666447d49ae0d1d42af1c549";
     const redirectUri = "http://localhost:5173/";
     const apiUri = "https://accounts.spotify.com/authorize";
-    const scopes = ["user-read-email", "user-read-private"];
+    const scopes = [
+      "user-read-email",
+      "user-read-private",
+      "user-read-playback-state",
+      "user-modify-playback-state",
+      "user-read-currently-playing",
+      "app-remote-control",
+      "streaming",
+      "playlist-read-private",
+      "playlist-read-collaborative",
+      "playlist-modify-private",
+      "playlist-modify-public",
+      "user-read-playback-position",
+      "user-top-read",
+      "user-read-recently-played",
+      "user-library-modify",
+      "user-library-read",
+    ];
     const url = `${apiUri}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
       " "
     )}&response_type=token&show_dialog=true`;
