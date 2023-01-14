@@ -6,6 +6,7 @@ const initialState = {
   status: "idle",
   token: null,
   error: null,
+  query: "rock",
 };
 
 export const fetchTracks = createAsyncThunk(
@@ -15,8 +16,9 @@ export const fetchTracks = createAsyncThunk(
 
     const response = await axios.get("https://api.spotify.com/v1/search", {
       params: {
-        q: "rock",
-        type: "track",
+        q: `${state.songs.query}`,
+        type: "track,artist",
+        limit: 50,
       },
       headers: {
         Authorization: `Bearer ${state.songs.token}`,
@@ -48,6 +50,14 @@ export const songsSlice = createSlice({
         return { payload: tracks };
       },
     },
+    setQuery: {
+      reducer(state, action) {
+        state.query = action.payload;
+      },
+      prepare(query) {
+        return { payload: query };
+      },
+    },
   },
   extraReducers(builder) {
     builder
@@ -56,6 +66,8 @@ export const songsSlice = createSlice({
       })
       .addCase(fetchTracks.fulfilled, (state, action) => {
         state.status = "succeeded";
+
+        if (state.tracks.length > 0) state.tracks.pop();
 
         state.tracks.push(action.payload);
       })
@@ -67,8 +79,9 @@ export const songsSlice = createSlice({
 
 export const selectTracks = (state) => state.songs.tracks[0];
 export const selectToken = (state) => state.songs.token;
+export const selectQuery = (state) => state.songs.query;
 export const getTracksStatus = (state) => state.songs.status;
 
-export const { setToken, setTracks } = songsSlice.actions;
+export const { setToken, setTracks, setQuery } = songsSlice.actions;
 
 export default songsSlice.reducer;
