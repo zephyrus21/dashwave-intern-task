@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TrackCard from "../components/TrackCard";
 import SpotifyWebPlayer from "react-spotify-web-playback/lib";
 
-const Spoify = () => {
+const Main = () => {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("list");
@@ -97,9 +97,9 @@ const Spoify = () => {
   return (
     <>
       <div className='p-5 justify-start align-start bg-stone-800'>
-        <div className='flex justify-between bg-stone-600 p-6 rounded-lg'>
+        <div className='flex justify-between items-center bg-stone-600 p-6 rounded-lg md:flex-row flex-col gap-4'>
           <input
-            className='border drop-shadow-2xl rounded-lg border-slate-900 pl-5 w-72'
+            className='border drop-shadow-2xl rounded-lg border-slate-900 pl-3 w-72 p-2'
             type='text'
             value={searchQuery}
             onChange={onChangeHandler}
@@ -152,4 +152,4 @@ const Spoify = () => {
   );
 };
 
-export default Spoify;
+export default Main;

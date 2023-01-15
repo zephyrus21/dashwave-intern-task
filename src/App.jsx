@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken, setToken } from "./features/songs/songsSlice";
 import Login from "./pages/Login";
-import Spoify from "./pages/Spoify";
+import Main from "./pages/Main";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const App = () => {
     // window.location.hash = "";
   }, [dispatch]);
 
-  return <div>{token ? <Spoify /> : <Login />}</div>;
+  return <div>{token ? <Main /> : <Login />}</div>;
 };
 
 export default App;
