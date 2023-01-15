@@ -12,11 +12,15 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import TrackCard from "../components/TrackCard";
 import SpotifyWebPlayer from "react-spotify-web-playback/lib";
+import { countries } from "../constants/countries";
 
 const Main = () => {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("list");
+  const [isCheck, setIsCheck] = useState([]);
+  const [list, setList] = useState([]);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [popularity, setPopularity] = useState("none");
 
@@ -38,6 +42,10 @@ const Main = () => {
       dispatch(fetchTracks());
     }
   }, [dispatch, query]);
+
+  useEffect(() => {
+    setList(countries);
+  }, [list]);
 
   const onChangeHandler = (e) => {
     const { value } = e.target;
@@ -66,10 +74,20 @@ const Main = () => {
     dispatch(setCurrentTrack(uri));
   };
 
+  const handleClick = (e) => {
+    const { id, checked } = e.target;
+    setIsCheck([...isCheck, id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter((item) => item !== id));
+    }
+  };
+
   if (status === "loading") {
     content = <p>Loading...</p>;
   } else if (status === "succeeded") {
-    const newTracks = tracks.filter((track) => {
+    let newTracks = tracks;
+
+    newTracks = newTracks.filter((track) => {
       if (popularity === "none") {
         return track;
       } else if (popularity === "low") {
@@ -80,6 +98,13 @@ const Main = () => {
         return track.popularity > 70;
       }
     });
+
+    newTracks = newTracks.filter((track) =>
+      track.available_markets.filter((market) => isCheck.includes(market))
+    );
+
+    console.log(newTracks);
+
     content = newTracks.map((track) => (
       <TrackCard
         key={track.id}
@@ -92,8 +117,6 @@ const Main = () => {
     content = <p>Failed to load tracks</p>;
   }
 
-  console.log(tracks);
-
   return (
     <>
       <div className='p-5 justify-start align-start bg-stone-800'>
@@ -105,6 +128,19 @@ const Main = () => {
             onChange={onChangeHandler}
             placeholder='Search for tracks and artists...'
           />
+          {/* {list.map(({ code, name }) => (
+            <>
+              <input
+                id={code}
+                name={name}
+                type='checkbox'
+                onChange={handleClick}
+                checked={isCheck.includes(code)}
+              />
+              {name}
+            </>
+          ))} */}
+
           <div className='flex items-center gap-4'>
             <label htmlFor='popularity' className='text-lg text-white'>
               Popularity
@@ -133,7 +169,7 @@ const Main = () => {
           <div className='flex flex-col gap-6 py-6'>{content}</div>
         )}
       </div>
-      <div className='fixed bottom-0 z-10 w-full'>
+      {/* <div className='fixed bottom-0 z-10 w-full'>
         <SpotifyWebPlayer
           token={token}
           uris={[currentTrack]}
@@ -147,7 +183,8 @@ const Main = () => {
             trackNameColor: "#fff",
           }}
         />
-      </div>
+      </div> */}
+      This feature is only available for premium users.
     </>
   );
 };
