@@ -169,7 +169,7 @@ const Main = () => {
           <div className='flex flex-col gap-6 py-6'>{content}</div>
         )}
       </div>
-      {/* <div className='fixed bottom-0 z-10 w-full'>
+      <div className='fixed bottom-0 z-10 w-full'>
         <SpotifyWebPlayer
           token={token}
           uris={[currentTrack]}
@@ -183,7 +183,7 @@ const Main = () => {
             trackNameColor: "#fff",
           }}
         />
-      </div> */}
+      </div>
     </>
   );
 };
