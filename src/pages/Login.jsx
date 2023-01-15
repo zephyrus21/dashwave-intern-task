@@ -4,6 +4,7 @@ const Login = () => {
   const handleClick = () => {
     const clientId = "0e474b74666447d49ae0d1d42af1c549";
     const redirectUri = "https://dashwave-intern-task.vercel.app/";
+    // const redirectUri = "http://localhost:5173/";
     const apiUri = "https://accounts.spotify.com/authorize";
     const scopes = [
       "user-read-email",
