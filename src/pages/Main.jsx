@@ -110,7 +110,7 @@ const Main = () => {
         key={track.id}
         track={track}
         view={view}
-        onClickCard={() => onSongClickHandler(track.uri)}
+        // onClickCard={() => onSongClickHandler(track.uri)}
       />
     ));
   } else if (status === "failed") {
@@ -184,7 +184,7 @@ const Main = () => {
           }}
         />
       </div> */}
-      This feature is only available for premium users.
+      {/* This feature is only available for premium users. */}
     </>
   );
 };
