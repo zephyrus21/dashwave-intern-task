@@ -7,6 +7,7 @@ const initialState = {
   token: null,
   error: null,
   query: "rock",
+  currentTrack: "spotify:track:0e7ipj03S05BNilyu5bRzt",
 };
 
 export const fetchTracks = createAsyncThunk(
@@ -58,6 +59,14 @@ export const songsSlice = createSlice({
         return { payload: query };
       },
     },
+    setCurrentTrack: {
+      reducer(state, action) {
+        state.currentTrack = action.payload;
+      },
+      prepare(currentTrack) {
+        return { payload: currentTrack };
+      },
+    },
   },
   extraReducers(builder) {
     builder
@@ -81,7 +90,9 @@ export const selectTracks = (state) => state.songs.tracks[0];
 export const selectToken = (state) => state.songs.token;
 export const selectQuery = (state) => state.songs.query;
 export const getTracksStatus = (state) => state.songs.status;
+export const getCurrentTrack = (state) => state.songs.currentTrack;
 
-export const { setToken, setTracks, setQuery } = songsSlice.actions;
+export const { setToken, setTracks, setQuery, setCurrentTrack } =
+  songsSlice.actions;
 
 export default songsSlice.reducer;
